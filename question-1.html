@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Question 1</title>
+
+</head>
+<body>
+  <script src="jquery-3.1.1.js"></script>
+  <script src="handlebars-v4.0.5.js"></script>
+  <script type="template/handlebars" id="user-list-template">
+      {{#each data}}
+        <span class="fullname">
+          {{data.firstName}}{{data.lastName}}
+        </span>
+        {{#if data.isAdmin}}
+          <p>
+          Admin
+          </p>
+          {{$else}}
+          <p>
+          Not Admin
+          </p>
+
+          {{/if}}
+          <ul class="project_list">
+            {{#each openSourceProjects}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+
+
+        </div>
+      {{/each}}
+    </script>
+
+  <script>
+
+  // var templateSource = $('#user-list-template').html();
+  // var template = Handlebars.compile(templateSource);
+  var templateString = document.getElementById('user-list-template').innerHTML;
+  var template = Handlebars.compile(templateString);
+
+    var promise = $.ajax({
+      url: 'http://itp-api.herokuapp.com/api/v1/me'
+    });
+
+    promise.then(function(data) {
+      var html = template({
+          firstName: data.firstName,
+          lastName: data.lastName,
+    });
+
+    document.getElementById('sub-list').innerHTML = html;
+});
+
+
+
+
+    // Make an AJAX call to http://itp-api.herokuapp.com/api/v1/me and render the user's first name
+    // and last name in a span with a class of "fullname" using Handlebars. Also render the list of
+    // open source projects in an unordered list. The `isAdmin` flag is a boolean that randomly changes.
+    // If isAdmin is true, render 'Admin' next to the name. Otherwise, just render 'Not Admin' next
+    // to the name.
+    // Dont forget to run a local server when building this.
+    // cd into this directory and run php -S localhost:8000 and navigate to localhost:8000/question-1.html
+
+  </script>
+
+
+
+
+    <div id="sub-list"></div>
+
+
+
+</body>
+</html>
